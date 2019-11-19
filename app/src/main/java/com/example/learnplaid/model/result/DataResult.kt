@@ -2,6 +2,9 @@ package com.example.learnplaid.model.result
 
 import java.lang.Exception
 
+/**
+ * like {@link kotlin.Result}
+ */
 sealed class DataResult<out T : Any> {
 
     data class Success<out T : Any>(val data: T) : DataResult<T>()
