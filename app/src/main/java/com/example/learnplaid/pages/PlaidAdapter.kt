@@ -1,8 +1,10 @@
 package com.example.learnplaid.pages
 
 import android.app.Activity
+import android.app.ActivityOptions
 import android.app.SharedElementCallback
 import android.content.Context
+import android.content.Intent
 import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
 import android.graphics.drawable.Drawable
@@ -22,6 +24,8 @@ import com.example.learnplaid.GlideApp
 import com.example.learnplaid.R
 import com.example.learnplaid.model.Article
 import com.example.learnplaid.model.result.PlaidItem
+import android.util.Pair
+import androidx.core.os.bundleOf
 
 class PlaidAdapter(
     private val host: Activity,
@@ -70,18 +74,18 @@ class PlaidAdapter(
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
-        return when(viewType) {
+        return when (viewType) {
             TYPE_GANK -> createDribbbleShotHolder(parent)
             else -> throw IllegalStateException("Unsupported View type")
         }
     }
 
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
-       when(holder) {
-           is DribbbleShotHolder -> {
-            bindDribbbleShotHolder(items[position] as Article, holder, position)
-           }
-       }
+        when (holder) {
+            is DribbbleShotHolder -> {
+                bindDribbbleShotHolder(items[position] as Article, holder, position)
+            }
+        }
     }
 
     override fun getItemCount(): Int = items.size
@@ -120,6 +124,7 @@ class PlaidAdapter(
             .fitCenter()
             .transition(DrawableTransitionOptions.withCrossFade())
             .into(holder.image)
+        holder.image.tag = shot.envelopePic
         // need both placeholder & background to prevent seeing through shot as it fades in
         shotLoadingPlaceholders[position % shotLoadingPlaceholders.size]?.apply {
             holder.prepareForFade(
@@ -138,18 +143,16 @@ class PlaidAdapter(
             initialGifBadgeColor,
             isDarkTheme
         ) { view, position ->
-//            val intent = intentTo(Activities.Dribbble.Shot)
-//            intent.putExtra(
-//                Activities.Dribbble.Shot.EXTRA_SHOT_ID,
-//                getItem(position)!!.id
-//            )
-//            val options = ActivityOptions.makeSceneTransitionAnimation(
-//                host,
-//                Pair.create(view, host.getString(R.string.transition_shot)),
-//                Pair.create(view, host.getString(R.string.transition_shot_background))
-//            )
-//            host.startActivityForResult(intent, REQUEST_CODE_VIEW_SHOT, options.toBundle())
-//            Unit
+            val intent = Intent(parent.context, DetailActivity::class.java).apply {
+                putExtra("url", view.tag.toString())
+            }
+            val options = ActivityOptions.makeSceneTransitionAnimation(
+                host,
+                Pair.create(view, host.getString(R.string.transition_shot)),
+                Pair.create(view, host.getString(R.string.transition_shot_background))
+            )
+            host.startActivityForResult(intent, 1, options.toBundle())
+            Unit
         }
     }
 

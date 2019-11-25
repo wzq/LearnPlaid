@@ -1,12 +1,16 @@
 package com.example.learnplaid.model
 
+import android.os.Parcelable
 import com.example.learnplaid.model.result.PlaidItem
+import kotlinx.android.parcel.Parcelize
+import kotlinx.android.parcel.RawValue
 
 
 /**
  * Created by wzq on 2019-07-12
  *
  */
+@Parcelize
 data class Article(
     val apkLink: String,
     val author: String,
@@ -25,13 +29,13 @@ data class Article(
     val publishTime: Long,
     val superChapterId: Int,
     val superChapterName: String,
-    val tags: MutableList<Tag>,
+    val tags: @RawValue MutableList<Tag>,
     val title: String,
     val type: Int,
     val userId: Int,
     val visible: Int,
     val zan: Int
-): PlaidItem(id, title, envelopePic, 0) {
+) : PlaidItem(id, title, envelopePic, 0), Parcelable {
     var hasFadedIn: Boolean = false
 
     val animated = false

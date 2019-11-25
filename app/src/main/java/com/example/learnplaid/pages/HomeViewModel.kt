@@ -7,6 +7,8 @@ import androidx.lifecycle.viewModelScope
 import com.example.learnplaid.data.HomeRepo
 import com.example.learnplaid.model.Article
 import com.example.learnplaid.model.result.DataResult
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.launch
 
 class HomeViewModel(private val repo: HomeRepo) : ViewModel() {

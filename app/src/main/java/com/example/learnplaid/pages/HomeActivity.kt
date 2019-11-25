@@ -3,12 +3,14 @@ package com.example.learnplaid.pages
 import android.os.Bundle
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
+import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.observe
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.learnplaid.R
 import com.example.learnplaid.ViewModelFactory
 import kotlinx.android.synthetic.main.activity_home.*
+import kotlinx.coroutines.launch
 
 class HomeActivity : AppCompatActivity() {
 
@@ -21,6 +23,7 @@ class HomeActivity : AppCompatActivity() {
         setActionBar(toolbar)
 
         val adapter = PlaidAdapter(this, false)
+        setExitSharedElementCallback(PlaidAdapter.createSharedElementReenterCallback(this))
 
         val gridLayoutManager = GridLayoutManager(this@HomeActivity, 2)
         grid.layoutManager = gridLayoutManager
@@ -49,6 +52,8 @@ class HomeActivity : AppCompatActivity() {
         viewModel.sources.observe(this) {
             adapter.items = it.getOrNull() ?: return@observe
         }
+
+        lifecycleScope.launch {  }
 
     }
 

@@ -1,0 +1,182 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <com.example.learnplaid.trans.ElasticDragDismissFrameLayout
+        android:id="@+id/draggable_frame"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:transitionGroup="false"
+        app:dragDismissDistance="@dimen/drag_dismiss_distance"
+        app:dragDismissScale="0.95"
+        app:layoutFullscreen="@{true}"
+        app:marginLeftSystemWindowInsets="@{true}"
+        app:marginRightSystemWindowInsets="@{true}"
+        app:marginTopSystemWindowInsets="@{true}"
+        tools:context=".pages.DetailActivity">
+
+        <View
+            android:id="@+id/background"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="?attr/colorSurface"
+            android:transitionName="@string/transition_shot_background" />
+
+        <com.example.learnplaid.widget.ParallaxScrimageView
+            android:id="@+id/shot"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@drawable/surface_contrast"
+            android:foreground="@drawable/mid_grey_ripple"
+            android:minHeight="@dimen/shot_collapsed_app_bar_height"
+            android:stateListAnimator="@animator/app_bar_pin"
+            android:transitionName="@string/transition_shot"
+            app:crossFadeImage="@{true}"
+            app:maxScrimAlpha="0.4"
+            app:parallaxFactor="-0.5"
+            app:scrimAlpha="0"
+            app:scrimColor="@color/scrim" />
+
+        <ImageView
+            android:id="@+id/back_wrapper"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+
+        <androidx.core.widget.NestedScrollView
+            android:id="@+id/body_scroll"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:clipToPadding="false"
+            android:orientation="vertical"
+            android:paddingBottom="@dimen/padding_normal"
+            android:scrollbarStyle="insideOverlay"
+            android:scrollbars="vertical"
+            app:paddingBottomSystemWindowInsets="@{true}">
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@android:color/transparent"
+                android:transitionGroup="false">
+                <!-- transparent background needed for the ripple on the spacer -->
+
+                <!-- spacer for the image -->
+                <View
+                    android:id="@+id/shot_spacer"
+                    android:layout_width="0dp"
+                    android:layout_height="0dp"
+                    app:layout_constraintDimensionRatio="h,4:3"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <com.example.learnplaid.widget.BaselineGridTextView
+                    android:id="@+id/shot_title"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/surface_contrast"
+                    android:paddingStart="@dimen/padding_normal"
+                    android:paddingTop="@dimen/padding_normal"
+                    android:paddingEnd="@dimen/padding_normal"
+                    android:paddingBottom="@dimen/padding_normal"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/shot_spacer" />
+
+                <com.example.learnplaid.widget.BaselineGridTextView
+                    android:id="@+id/shot_description"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/spacing_large"
+                    android:paddingStart="@dimen/padding_normal"
+                    android:paddingEnd="@dimen/padding_normal"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/shot_title"
+                    android:text="Check out this sweet eye candy!" />
+
+                <com.example.learnplaid.widget.BaselineGridTextView
+                    android:id="@+id/shot_like_count"
+                    style="@style/Widget.Plaid.InlineActionButton"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/spacing_large"
+                    android:background="@null"
+                    app:layout_constraintEnd_toStartOf="@id/shot_view_count"
+                    app:layout_constraintHorizontal_weight="1"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/shot_description"
+                    android:text="33 likes" />
+
+                <com.example.learnplaid.widget.BaselineGridTextView
+                    android:id="@+id/shot_view_count"
+                    style="@style/Widget.Plaid.InlineActionButton"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:background="@null"
+                    app:layout_constraintBaseline_toBaselineOf="@id/shot_like_count"
+                    app:layout_constraintEnd_toStartOf="@id/shot_share_action"
+                    app:layout_constraintHorizontal_weight="1"
+                    app:layout_constraintStart_toEndOf="@id/shot_like_count"
+                    android:text="33 views" />
+
+                <com.example.learnplaid.widget.BaselineGridTextView
+                    android:id="@+id/shot_share_action"
+                    style="@style/Widget.Plaid.InlineActionButton"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:text="@string/share"
+                    app:layout_constraintBaseline_toBaselineOf="@id/shot_like_count"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintHorizontal_weight="1"
+                    app:layout_constraintStart_toEndOf="@id/shot_view_count" />
+
+                <com.example.learnplaid.widget.BaselineGridTextView
+                    android:id="@+id/player_name"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/padding_normal"
+                    android:layout_marginEnd="@dimen/avatar_margin"
+                    android:clickable="false"
+                    android:gravity="end"
+                    android:paddingStart="@dimen/padding_normal"
+                    android:paddingTop="@dimen/spacing_normal"
+                    android:textAppearance="@style/TextAppearance.CommentAuthor"
+                    app:layout_constraintEnd_toStartOf="@id/player_avatar"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/shot_view_count"
+                    android:text="—Nick B" />
+
+                <com.example.learnplaid.widget.BaselineGridTextView
+                    android:id="@+id/shot_time_ago"
+                    android:layout_width="0dp"
+                    android:layout_height="600dp"
+                    android:gravity="end"
+                    android:paddingStart="@dimen/padding_normal"
+                    android:textAppearance="@style/TextAppearance.CommentTimestamp"
+                    app:layout_constraintEnd_toStartOf="@id/player_avatar"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/player_name"
+                    tools:text="3 hours ago" />
+
+                <com.example.learnplaid.widget.CircularImageView
+                    android:id="@+id/player_avatar"
+                    android:layout_width="@dimen/avatar_bounds"
+                    android:layout_height="@dimen/avatar_bounds"
+                    android:layout_marginEnd="@dimen/padding_normal"
+                    android:padding="@dimen/avatar_padding"
+                    app:circleCropImage="@{true}"
+                    app:crossFadeImage="@{true}"
+                    app:layout_constraintBottom_toBottomOf="@id/player_name"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/player_name" />
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+        </androidx.core.widget.NestedScrollView>
+
+    </com.example.learnplaid.trans.ElasticDragDismissFrameLayout>
+
+</layout>
